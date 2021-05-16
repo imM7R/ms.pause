@@ -62,27 +62,30 @@ async def on_message(message):
     string = str(x)
     stringt = str(z)
     tt1 = stringt[2]
-    finalslot = stringt[0] + " : " + stringt[1] + tt1
-    finaltime = stringt[0] + " : " + stringt[1] + tt1
+    finalslot = stringt[0] + ":" + stringt[1] + tt1
+    finaltime = stringt[0] + ":" + stringt[1] + tt1
 
   elif x > 959 and x < 1259:
     string = str(x)
-    finalslot = string[0] + string[1] + " : " + string[2] + string[3]
-    finaltime = string[0] + string[1] +" : " + string[2] + string[3]
+    finalslot = string[0] + string[1] + ":" + string[2] + string[3]
+    finaltime = string[0] + string[1] +":" + string[2] + string[3]
     
   elif x <= 959:
     z = x + 1200
     string = str(x)
     stringt = str(z)
-    finalslot = string[0] + " : " + string[1] + string[2]
-    finaltime = stringt[0] + " : " + stringt[1] + stringt[2]
+    finalslot = string[0] + ":" + string[1] + string[2]
+    finaltime = stringt[0] + ":" + stringt[1] + stringt[2]
   
     
   if message.content.startswith('-t'):
     await message.reply("The time is " + finaltime)
 
-  if message.content.startswith('-p'):
-    await message.reply(f'{message.author.name}'+ " =>> " + finalslot) 
+  if message.content.startswith('-pau'):
+    await message.reply(f'```{message.author.name}'+ " =>> " + finalslot + "```") 
+
+  if message.content.startswith('pause'):
+    await message.reply(f'```{message.author.name}'+ " =>> " + finalslot + "```")
   
 
 
