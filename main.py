@@ -29,6 +29,7 @@ async def on_ready():
 async def on_message(message):
   if message.author == client.user:
     return
+  
 
   ## Time and Date Update
   utcnow = datetime.datetime.now(tz=pytz.UTC)
@@ -37,46 +38,53 @@ async def on_message(message):
   mnow = intime.minute
   tnow = (hnow*100)+mnow
   
+  if tnow > 359 and tnow < 1800:
+    if message.content.startswith('-p'):
+      await message.reply(" No pauses during this time.")
+      return
+
   pausetime = Pauselist[slot]
 
   ## Add 1200 hrs
-  if tnow < 500:
+  if tnow <= 500:
     tnow = tnow + 1200
+  elif tnow > 500:
+    tnow = tnow - 1200
 
 
   for x in Pauselist:
     if x > tnow:
-      pausetime = x
       break
+    x +=1
 
   if x > 1259:
     z = x - 1200
     string = str(x)
-    stringt = str(x)
-    finalslot = stringt[0] + " : " + stringt[1] + string[2]
-    finaltime = stringt[0] + " : " + stringt[1] + string[2]
+    stringt = str(z)
+    tt1 = stringt[2]
+    finalslot = stringt[0] + " : " + stringt[1] + tt1
+    finaltime = stringt[0] + " : " + stringt[1] + tt1
 
-  if x > 959 and x < 1259:
+  elif x > 959 and x < 1259:
     string = str(x)
-    stringt = str(tnow)
+    stringt = str(z)
     finalslot = string[0] + string[1] + " : " + string[2] + string[3]
     finaltime = stringt[0] + string[1] +" : " + stringt[2] + stringt[3]
     
-  if x < 1000:
+  elif x <= 959:
+    z = x + 1200
     string = str(x)
-    stringt = str(tnow)
+    stringt = str(z)
     finalslot = string[0] + " : " + string[1] + string[2]
     finaltime = stringt[0] + " : " + stringt[1] + stringt[2]
   
-  pausetime1 = intime.strftime('%I:%M %p')
-  
+    
   if message.content.startswith('-t'):
     await message.reply("The time is " + finaltime)
 
   if message.content.startswith('-p'):
     await message.reply(f'{message.author.name}'+ " =>> " + finalslot) 
   
-
 
 
 # Run BOT
