@@ -82,10 +82,10 @@ async def on_message(message):
     await message.reply("The time is " + finaltime)
 
   if message.content.startswith('-pau'):
-    await message.reply(f'```{message.author.name}'+ " =>> " + finalslot + "```") 
+    await message.reply(f'```{message.author.name}' + " =>> " + finalslot + "```") 
 
   if message.content.startswith('pause'):
-    await message.reply(f'```{message.author.name}'+ " =>> " + finalslot + "```")
+    await message.reply(f'```css .{message.author.name}' + " =>> " + finalslot + "```")
   
 
 
