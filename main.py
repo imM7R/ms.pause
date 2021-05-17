@@ -20,7 +20,7 @@ client = discord.Client()
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
-  quote = "***'" + json_data[0]['q'] + "***' - **" + json_data[0]['a']+"**"
+  quote = "***" + json_data[0]['q'] + "  -- *** **" + json_data[0]['a']+"**"
   return(quote)
 
 ## PAUSE LIST - 1st HALF
@@ -41,7 +41,7 @@ async def on_message(message):
     return
   
   ## Output Random Quote
-  if message.content.startswith('$q'):
+  if message.content.startswith('!q'):
     quote = get_quote()
     await message.channel.send(quote)
     return
