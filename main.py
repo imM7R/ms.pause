@@ -60,8 +60,8 @@ async def on_message(message):
   tnow = (hnow*100)+mnow
   
   ## Shift time 
-  if tnow > 359 and tnow < 1800:
-    if message.content.startswith('-p'):
+  if tnow >= 359 and tnow < 1800:
+    if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau'):
       await message.reply(" No pauses at this time.")
       return
 
