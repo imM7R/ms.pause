@@ -20,7 +20,7 @@ client = discord.Client()
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
-  quote = json_data[0]['q'] + " - **" + json_data[0]['a']+"**"
+  quote = "***'" + json_data[0]['q'] + "***' - **" + json_data[0]['a']+"**"
   return(quote)
 
 ## PAUSE LIST - 1st HALF
@@ -40,7 +40,7 @@ async def on_message(message):
   if message.author == client.user:
     return
   
-  ## Output Quote
+  ## Output Random Quote
   if message.content.startswith('$q'):
     quote = get_quote()
     await message.channel.send(quote)
@@ -59,6 +59,7 @@ async def on_message(message):
   mnow = intime.minute
   tnow = (hnow*100)+mnow
   
+  ## Shift time 
   if tnow > 359 and tnow < 1800:
     if message.content.startswith('-p'):
       await message.reply(" No pauses at this time.")
