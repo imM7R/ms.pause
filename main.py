@@ -48,7 +48,7 @@ async def on_message(message):
 
   ## Channel Filtering // General Chat
   if message.channel.id == 838353565558243332:
-    if message.content.startswith('-pause'):
+    if message.content.startswith('-pau') or message.content.startswith('-Pau') or  message.content.startswith('Pau') or message.content.startswith('paus'):
       await message.reply ("Please use **#pause** channel for requesting pauses.")
       return
 
@@ -60,7 +60,7 @@ async def on_message(message):
   tnow = (hnow*100)+mnow
   
   ## Shift time 
-  if tnow >= 359 and tnow < 1800:
+  if tnow >= 350 and tnow < 1800:
     if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau'):
       await message.reply(" No pauses at this time.")
       return
