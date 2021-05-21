@@ -48,9 +48,17 @@ async def on_message(message):
 
   ## Channel Filtering // General Chat
   if message.channel.id == 838353565558243332:
-    if message.content.startswith('-pau') or message.content.startswith('-Pau') or  message.content.startswith('Pau') or message.content.startswith('paus'):
+    if message.content.startswith('-pau') or message.content.startswith('-Pau') or  message.content.startswith('Pau') or message.content.startswith('paus') or message.content.startswith('PAUSE'):
       await message.reply ("Please use **#pause** channel for requesting pauses.")
       return
+
+  ##if message.channel.id == 839652258404237323: 
+    ##if message.content.startswith('!freeze'):
+     ## channel = client.get_channel(839652258404237323)
+      ##message.channel.setPermissions(838356141112557568, send_messages=False)
+      ##await channel.edit(name='Test-Freezed')
+      ##return
+
 
   ## Time and Date Update
   utcnow = datetime.datetime.now(tz=pytz.UTC)
@@ -61,7 +69,7 @@ async def on_message(message):
   
   ## Shift time 
   if tnow >= 350 and tnow < 1800:
-    if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau'):
+    if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau') or message.content.startswith('PAUSE'):
       await message.reply(" No pauses at this time.")
       return
 
