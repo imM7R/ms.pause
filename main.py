@@ -68,7 +68,7 @@ async def on_message(message):
   tnow = (hnow*100)+mnow
   
   ## Shift time 
-  if tnow >= 350 and tnow < 1800:
+  if tnow >= 358 and tnow < 1800:
     if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau') or message.content.startswith('PAUSE'):
       await message.reply(" No pauses at this time.")
       return
@@ -117,7 +117,7 @@ async def on_message(message):
   if message.content.startswith('pause'):
     await message.reply(f'```{message.author.name}' + " =>> " + finalslot + "```")
   
-  if message.content.startswith('Paus') or message.content.startswith('-Pa'):
+  if message.content.startswith('Paus') or message.content.startswith('-Pa') or message.content.startswith('PAUS'):
     await message.reply(f'```{message.author.name}' + " =>> " + finalslot + "```")
   
 
