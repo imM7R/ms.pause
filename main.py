@@ -6,6 +6,10 @@ import datetime
 import pytz
 import csv
 import requests
+from discord import Member
+from discord.ext.commands import has_permissions, MissingPermissions
+from discord.utils import get
+
 
 
 #Bot Envoirment
@@ -49,19 +53,27 @@ async def on_message(message):
       await message.reply ("Please use **#pause** channel for requesting pauses.")
       return
 
-  ##if message.channel.id == 839652258404237323: 
-    ##if message.content.startswith('!freeze'):
-      ##channel = client.get_channel(839652258404237323)
-      ##await channel.edit(name='Test-Freezed')
-      ##message.channel.set_Permissions(838648972238127104, send_messages=False)
-      ##await message.reply ("**Pauses FREEZED for the next 10 mins**")
-      ##return
-    ##elif message.content.startswith('!unfreeze'):
-     ## channel = client.get_channel(839652258404237323)
-     ## message.channel.set_Permissions(838648972238127104, send_messages=True)
-     ## await channel.edit(name='Test')
-     ## await message.reply ("**Pauses are available.**")
-     ## return
+  if message.channel.id == 839652258404237323: 
+    if message.content.startswith('!ahod'):
+      guild = client.get_guild(838353565558243329)
+      channel = client.get_channel(839652258404237323)
+      role_id = 855906834836488232
+      role = get(guild.roles, id=role_id)
+      permissions = discord.Permissions()
+      permissions.update(send_messages=False)
+      await role.edit(permissions=permissions)
+      await channel.edit(name='AHOD-Test-Freezed')
+      await message.reply ("**All Hands on Deck - Pauses FREEZED for the next 15 mins. Please do NOT pause the app or request pauses.**")
+      ##await message.channel.set_Permissions(role, send_messages=False)
+      return
+
+    if message.content.startswith('!uf'):
+     channel = client.get_channel(839652258404237323)
+     role = 855906834836488232
+     await channel.edit(name='Test')
+     await message.reply ("**Pauses are avialable now.**")
+     await message.channel.set_Permissions(role, send_messages=True)
+     return
 
   ## Time and Date Update
   utcnow = datetime.datetime.now(tz=pytz.UTC)
