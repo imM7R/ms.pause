@@ -16,7 +16,7 @@ from discord.utils import get
 BToken = os.environ['Token']
 client = discord.Client()
 
-## Get Random Quote 
+## Get Random Inspirational Quote 
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
@@ -33,6 +33,12 @@ async def on_ready():
   print('Ready')
 
 ## CSV File
+file = open('ptaken.csv')
+reader = csv.reader(file)
+data = []
+for row in reader:
+  ps = int(row[1])  
+
 
 
 @client.event 
@@ -49,7 +55,7 @@ async def on_message(message):
 
   ## Channel Filtering // General Chat
   if message.channel.id == 838353565558243332:
-    if message.content.startswith('-pau') or message.content.startswith('-Pau') or  message.content.startswith('Pau') or message.content.startswith('paus') or message.content.startswith('PAUSE'):
+    if message.content.startswith('-pau') or message.content.startswith('-Pau') or  message.content.startswith('Pau') or message.content.startswith('pau') or message.content.startswith('PAUSE'):
       await message.reply ("Please use **#pause** channel for requesting pauses.")
       return
 
@@ -64,7 +70,7 @@ async def on_message(message):
       await role.edit(permissions=permissions)
       await channel.edit(name='AHOD-Test-Freezed')
       await message.reply ("**All Hands on Deck - Pauses FREEZED for the next 15 mins. Please do NOT pause the app or request pauses.**")
-      ##await message.channel.set_Permissions(role, send_messages=False)
+      await message.channel.set_Permissions(role, send_messages=False)
       return
 
     if message.content.startswith('!uf'):
