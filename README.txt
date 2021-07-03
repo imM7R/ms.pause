@@ -1,7 +1,7 @@
 # ms.pause
 A basic chat bot that assigns pauses (breaks) at intervals of 10 mins keeping in mind the max concurrency. 
 
-****BOT COMMANDS**** \n
+****BOT COMMANDS**** 
 !q - Random inspirational quote
 !ahod - All Hands on Deck. 
 !uf - Unfreeze Pauses. 
