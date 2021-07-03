@@ -1,13 +1,10 @@
 import os
 import discord
 import json
-from keep_alive import keep_alive
 import datetime
 import pytz
-import csv
 import requests
 from discord import Member
-from discord.ext.commands import has_permissions, MissingPermissions
 from discord.utils import get
 
 
@@ -18,7 +15,7 @@ client = discord.Client()
 
 # view_channel=True,add_reaction=True,read_message_history=True,use_external_emojis=False,send_tts_message=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False 
 
-MAX_PAUSE_SHIFT_COUNT = 10
+MAX_PAUSE_SHIFT_COUNT = 3
 LOG_FILE = "logs.txt"
 
 shift_start = 405
@@ -48,7 +45,7 @@ def write_log(ids, shift_pause):
 
 ## PAUSE LIST - 10 mins
 
-Pauselist = [635, 640, 650, 700, 710, 720, 730, 740, 750, 800, 810, 820, 830, 840, 850, 900, 910, 920, 930, 940, 950, 1000, 1010, 1020, 1030, 1040, 1050, 1100, 1110, 1120, 1130, 1140, 1150, 1200, 1210, 1220, 1230, 1240, 1250, 1300, 1310, 1320, 1330, 1340, 1350, 1400, 1410, 1420, 1430, 1440, 1450, 1500, 1510, 1520, 1530, 1540, 1550, 1600, 1610]
+Pauselist = [630, 640, 650, 700, 710, 720, 730, 740, 750, 800, 810, 820, 830, 840, 850, 900, 910, 920, 930, 940, 950, 1000, 1010, 1020, 1030, 1040, 1050, 1100, 1110, 1120, 1130, 1140, 1150, 1200, 1210, 1220, 1230, 1240, 1250, 1300, 1310, 1320, 1330, 1340, 1350, 1400, 1410, 1420, 1430, 1440, 1450, 1500, 1510, 1520, 1530, 1540, 1550, 1600, 1610]
 PauselistDupl = Pauselist[::]
 
 countDict = {}
@@ -82,10 +79,15 @@ async def on_message(message):
     if(message.content.startswith('!shiftstart')):
       value  = float(message.content.split(' ')[1])
       shift_start = value
+      await message.reply ("Shift START time changed.")
 
     if(message.content.startswith('!shiftend')):
       value  = float(message.content.split(' ')[1])
       shift_end = value
+      await message.reply ("Shift START time changed.")
+
+    if(message.content.startswith('!help')):
+      await message.reply ("****BOT COMMANDS**** \n **!q** - Random inspirational quote \n **!ahod** - All Hands on Deck. \n **!uf** - Unfreeze Pauses. \n **!conc** - Changes max pause limit (!conc 3) \n **!reset** - Bot reset \n **!clearlog** - Clear LOG file. \n **!log** - Outputs log file \n **!help** - Commands. \n **!shiftstart** - Change shift start time (Do not use) \n **!shiftend** - Change shift end time. (Do not use)")
 
     if message.content.startswith('!ahod'):
       guild = client.get_guild(838353565558243329)
@@ -96,8 +98,8 @@ async def on_message(message):
       permissions.update(send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       await role.edit(permissions=permissions)
       await channel.edit(name='adhod-pause-freezed')
-      await channel.send("**All Hands on Deck - Pauses FREEZED for the next 15 mins. Please do NOT pause the app or request pauses.**")
-      await message.reply ("**All Hands on Deck - Pauses FREEZED for the next 15 mins. Please do NOT pause the app or request pauses.**")
+      await channel.send("**All Hands on Deck - Pauses are FREEZED for the next 15 mins. Please do NOT pause the app.**")
+      await message.reply ("**All Hands on Deck - Pauses FREEZED.**")
       await channel.set_permissions(role, send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       return
 
@@ -118,13 +120,16 @@ async def on_message(message):
     if message.content.startswith("!conc"):
       value  = float(message.content.split(' ')[1])
       MAX_PAUSE_SHIFT_COUNT = value
+      await message.reply ("**Pause concurrency changed**")
+
     #Clear LOGS command
-    if message.content.startswith('!clear log'):
+    if message.content.startswith('!clearlog'):
       clear_log_file()
+      await message.reply ("**LOG file cleared.**")
 
     if message.content.startswith("!reset"):
       Pauselist = PauselistDupl[::]
-      await  message.reply("rebooting")
+      await  message.reply("BOT Reset.")
 
   if message.channel.id == 838369470803738625: 
   ## Time and Date Update
@@ -135,10 +140,10 @@ async def on_message(message):
     tnow = (hnow*100)+mnow
     
     ## Shift time 
-    ##if tnow >= shift_start and tnow < shift_end:
-     ## if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau') or     ## message.content.startswith('PAUSE'):
-       ## await message.reply("No pauses at this time.")
-      ##  return
+    if tnow >= shift_start and tnow < shift_end:
+      if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau') or      message.content.startswith('PAUSE'):
+        await message.reply("No pauses at this time.")
+        return
 
     ## Add 1200 hrs
     if tnow <= 500:
@@ -204,5 +209,4 @@ async def on_message(message):
 
 
 # Run BOT
-keep_alive()
 client.run(BToken) 
