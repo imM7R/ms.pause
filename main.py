@@ -16,7 +16,9 @@ from discord.utils import get
 BToken = os.environ['Token']
 client = discord.Client()
 
-MAX_PAUSE_SHIFT_COUNT = 3
+# view_channel=True,add_reaction=True,read_message_history=True,use_external_emojis=False,send_tts_message=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False 
+
+MAX_PAUSE_SHIFT_COUNT = 10
 LOG_FILE = "logs.txt"
 
 shift_start = 405
@@ -59,7 +61,7 @@ async def on_ready():
 @client.event 
 async def on_message(message):
   ## Self Retun
-  global shift_end, shift_start,MAX_PAUSE_SHIFT_COUNT ,countDict
+  global shift_end, shift_start,MAX_PAUSE_SHIFT_COUNT ,countDict,Pauselist, PauselistDupl
   if message.author == client.user:
     return
   
@@ -80,12 +82,10 @@ async def on_message(message):
     if(message.content.startswith('!shiftstart')):
       value  = float(message.content.split(' ')[1])
       shift_start = value
-      await message.reply("Shift START time changed.")
 
     if(message.content.startswith('!shiftend')):
       value  = float(message.content.split(' ')[1])
       shift_end = value
-      await message.reply("Shift END time changed.")
 
     if message.content.startswith('!ahod'):
       guild = client.get_guild(838353565558243329)
@@ -93,12 +93,12 @@ async def on_message(message):
       role_id = 855906834836488232
       role = get(guild.roles, id=role_id)
       permissions = discord.Permissions()
-      permissions.update(send_messages=False)
+      permissions.update(send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       await role.edit(permissions=permissions)
       await channel.edit(name='adhod-pause-freezed')
       await channel.send("**All Hands on Deck - Pauses FREEZED for the next 15 mins. Please do NOT pause the app or request pauses.**")
       await message.reply ("**All Hands on Deck - Pauses FREEZED for the next 15 mins. Please do NOT pause the app or request pauses.**")
-      await channel.set_permissions(role, send_messages=False)
+      await channel.set_permissions(role, send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       return
 
     if message.content.startswith('!uf'):
@@ -107,22 +107,24 @@ async def on_message(message):
       role_id = 855906834836488232
       role = get(guild.roles, id=role_id)
       permissions = discord.Permissions()
-      permissions.update(send_messages=True)
+      permissions.update(send_messages=True,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       await role.edit(permissions=permissions)
       await channel.edit(name='pause')
       await channel.send("**Pauses are avialable now.**")
       await message.reply ("**Pauses are avialable now.**")
-      await channel.set_permissions(role, send_messages=True)
+      await channel.set_permissions(role, send_messages=True,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       return
 
     if message.content.startswith("!conc"):
       value  = float(message.content.split(' ')[1])
       MAX_PAUSE_SHIFT_COUNT = value
-      await message.reply("Pause concurrency changed.")
     #Clear LOGS command
-    if message.content.startswith('!clear'):
+    if message.content.startswith('!clear log'):
       clear_log_file()
-      await message.reply("Log file cleared.")
+
+    if message.content.startswith("!reset"):
+      Pauselist = PauselistDupl[::]
+      await  message.reply("rebooting")
 
   if message.channel.id == 838369470803738625: 
   ## Time and Date Update
@@ -134,9 +136,9 @@ async def on_message(message):
     
     ## Shift time 
     ##if tnow >= shift_start and tnow < shift_end:
-      ##if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau') or      message.content.startswith('PAUSE'):
+     ## if message.content.startswith('-p') or message.content.startswith('pau') or message.content.startswith('Pau') or     ## message.content.startswith('PAUSE'):
        ## await message.reply("No pauses at this time.")
-       ## return
+      ##  return
 
     ## Add 1200 hrs
     if tnow <= 500:
@@ -150,12 +152,16 @@ async def on_message(message):
         break
       x +=1
     
+    if(not x):
+      await message.reply("No more pauses available.")
     try:
       countDict[x] += 1
     except:
       countDict[x] = 1
 
+    print(countDict[x])
     if(countDict[x] == MAX_PAUSE_SHIFT_COUNT):
+      print("Count exceded for ",x)
       Pauselist.remove(x)
     
 
@@ -181,7 +187,7 @@ async def on_message(message):
       finaltime = stringt[0] + ":" + stringt[1] + stringt[2]
     
       
-    write_log(message.author.id, x)
+    write_log(message.author.display_name, x)
     if message.content.startswith('-t'):
       await message.reply("The time is " + finaltime)
 
