@@ -10,7 +10,7 @@ from discord.utils import get
 
 
 #Bot Envoirment
-BToken = os.environ['Token']
+##BToken = os.environ['token']
 client = discord.Client()
 
 # view_channel=True,add_reaction=True,read_message_history=True,use_external_emojis=False,send_tts_message=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False 
@@ -23,9 +23,9 @@ shift_end = 1800
 
 ## Get Random Inspirational Quote 
 def get_quote():
-  response = requests.get("https://zenquotes.io/api/random")
+  response = requests.get("https://zenquotes.io/api/random", verify=False)
   json_data = json.loads(response.text)
-  quote = "***" + json_data[0]['q'] + "  -- *** **" + json_data[0]['a']+"**"
+  quote = "***" + json_data[0]['q'] + " -- *** **" + json_data[0]['a']+"**"
   return(quote)
 
 
@@ -92,21 +92,21 @@ async def on_message(message):
     if message.content.startswith('!ahod'):
       guild = client.get_guild(838353565558243329)
       channel = client.get_channel(838369470803738625)
-      role_id = 855906834836488232
+      role_id = 838356141112557568
       role = get(guild.roles, id=role_id)
       permissions = discord.Permissions()
-      permissions.update(send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
+      permissions.update(manage_messages=False, send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       await role.edit(permissions=permissions)
       await channel.edit(name='adhod-pause-freezed')
       await channel.send("**All Hands on Deck - Pauses are FREEZED for the next 15 mins. Please do NOT pause the app.**")
       await message.reply ("**All Hands on Deck - Pauses FREEZED.**")
-      await channel.set_permissions(role, send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
+      await channel.set_permissions(role, manage_messages=False,send_messages=False,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       return
 
     if message.content.startswith('!uf'):
       guild = client.get_guild(838353565558243329)
       channel = client.get_channel(838369470803738625)
-      role_id = 855906834836488232
+      role_id = 838356141112557568
       role = get(guild.roles, id=role_id)
       permissions = discord.Permissions()
       permissions.update(send_messages=True,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
@@ -114,7 +114,7 @@ async def on_message(message):
       await channel.edit(name='pause')
       await channel.send("**Pauses are avialable now.**")
       await message.reply ("**Pauses are avialable now.**")
-      await channel.set_permissions(role, send_messages=True,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
+      await channel.set_permissions(role, manage_messages=False, send_messages=True,view_channel=True,add_reactions=True,read_message_history=True,use_external_emojis=False,send_tts_messages=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False)
       return
 
     if message.content.startswith("!conc"):
@@ -209,4 +209,4 @@ async def on_message(message):
 
 
 # Run BOT
-client.run(BToken) 
+client.run(BToken)
