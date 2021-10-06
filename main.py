@@ -13,7 +13,8 @@ client = discord.Client()
 
 # view_channel=True,add_reaction=True,read_message_history=True,use_external_emojis=False,send_tts_message=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False
 
-MAX_PAUSE_SHIFT_COUNT = 3
+#Concurrency
+MAX_PAUSE_SHIFT_COUNT = 4
 
 # Dictionary to store count of slot of individual user
 USER_SLOT_COUNT = {}
@@ -24,7 +25,7 @@ MAX_PAUSE_USER = 2
 LOG_FILE = "logs.txt"
 
 shift_start = 1800
-shift_end = 421
+shift_end = 411
 
 
 ## Get Random Inspirational Quote
@@ -58,11 +59,11 @@ def write_log(ids, username, shift_pause):
     return 0
 
 
-def get_log_data():
-    data = []
-    with open(LOG_FILE, 'r') as file:
-        data = file.readlines()
-    return ''.join(data).strip()
+    def get_log_data():
+        data = []
+        with open(LOG_FILE, 'r') as file:
+            data = file.readlines()
+        return ''.join(data).strip()
 
 
 ## PAUSE LIST - 10 mins
@@ -74,7 +75,6 @@ Pauselist = [630, 640, 650, 700, 710, 720, 730, 740, 750, 800, 810, 820, 830, 84
 PauselistDupl = Pauselist[::]
 
 countDict = {}
-
 
 # Bot interaction in Group
 @client.event
@@ -153,8 +153,8 @@ async def on_message(message):
                                manage_channels=False, manage_roles=False, create_instant_invite=False)
             await role.edit(permissions=permissions)
             await channel.edit(name='pause')
-            await channel.send("**Pauses are avialable now.**")
-            await message.reply("**Pauses are avialable now.**")
+            await channel.send("**Pauses are available now.**")
+            await message.reply("**Pauses are available now.**")
             await channel.set_permissions(role, manage_messages=False, send_messages=True, view_channel=True,
                                           add_reactions=True, read_message_history=True, use_external_emojis=False,
                                           send_tts_messages=False, use_slash_commands=False, mention_everyone=False,
@@ -235,7 +235,7 @@ async def on_message(message):
 
         print(countDict[x])
         if (countDict[x] == MAX_PAUSE_SHIFT_COUNT):
-            print("Count exceeded for slot - ", x)
+            print(intime, " - Count exceeded for slot - ", x)
             Pauselist.remove(x)
 
         if x > 1259:
@@ -273,3 +273,4 @@ async def on_message(message):
             await message.reply(f'```{message.author.display_name}' + " =>> " + finalslot + "```")
 
 # Run BOT
+client.run('ODQzMDMxMjE3ODUwNTQ4MjI1.YJ98AQ.pwxNLx6AyIKnzuiEyrluPsLqH3k')
