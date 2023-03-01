@@ -9,7 +9,10 @@ from discord.utils import get
 
 # Bot Envoirment
 ##BToken = os.environ['token']
-client = discord.Client()
+intents=discord.Intents.default()
+intents.message_content=True
+
+client = discord.Client(intents=intents)
 
 # view_channel=True,add_reaction=True,read_message_history=True,use_external_emojis=False,send_tts_message=False,use_slash_commands=False,mention_everyone=False,attach_files=False,embed_links=False,manage_webhooks=False,manage_channels=False,manage_roles=False,create_instant_invite=False
 
@@ -25,7 +28,7 @@ MAX_PAUSE_USER = 2
 LOG_FILE = "logs.txt"
 
 shift_start = 1800
-shift_end = 411
+shift_end = 511
 
 
 ## Get Random Inspirational Quote
@@ -71,7 +74,7 @@ def write_log(ids, username, shift_pause):
 Pauselist = [630, 640, 650, 700, 710, 720, 730, 740, 750, 800, 810, 820, 830, 840, 850, 900, 910, 920, 930, 940, 950,
              1000, 1010, 1020, 1030, 1040, 1050, 1100, 1110, 1120, 1130, 1140, 1150, 1200, 1210, 1220, 1230, 1240, 1250,
              1300, 1310, 1320, 1330, 1340, 1350, 1400, 1410, 1420, 1430, 1440, 1450, 1500, 1510, 1520, 1530, 1540, 1550,
-             1600, 1610, 1620]
+             1600, 1610, 1620, 1630, 1640, 1650, 1700, 1710]
 PauselistDupl = Pauselist[::]
 
 countDict = {}
@@ -273,4 +276,4 @@ async def on_message(message):
             await message.reply(f'```{message.author.display_name}' + " =>> " + finalslot + "```")
 
 # Run BOT
-client.run('ODQzMDMxMjE3ODUwNTQ4MjI1.YJ98AQ.pwxNLx6AyIKnzuiEyrluPsLqH3k')
+client.run('Code   ')
