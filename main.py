@@ -48,6 +48,9 @@ def clear_log_file():
     open(LOG_FILE, 'w').close()
 
 
+
+
+
 def write_log(ids, username, shift_pause):
     global USER_SLOT_COUNT
     count = 0
@@ -67,6 +70,7 @@ def write_log(ids, username, shift_pause):
         with open(LOG_FILE, 'r') as file:
             data = file.readlines()
         return ''.join(data).strip()
+
 
 
 ## PAUSE LIST - 10 mins
@@ -126,22 +130,12 @@ async def on_message(message):
             channel = client.get_channel(838369470803738625)
             role_id = 838356141112557568
             role = get(guild.roles, id=role_id)
-            permissions = discord.Permissions()
-            permissions.update(manage_messages=False, send_messages=False, view_channel=True, add_reactions=True,
-                               read_message_history=True, use_external_emojis=False, send_tts_messages=False,
-                               use_slash_commands=False, mention_everyone=False, attach_files=False, embed_links=False,
-                               manage_webhooks=False, manage_channels=False, manage_roles=False,
-                               create_instant_invite=False)
-            await role.edit(permissions=permissions)
+            print(role)
+            await channel.set_permissions(role, manage_messages=False, send_messages=False, view_channel=True, add_reactions=True, read_message_history=True, use_external_emojis=False, send_tts_messages=False, use_slash_commands=False, mention_everyone=False, attach_files=False, embed_links=False, manage_webhooks=False, manage_channels=False, manage_roles=False, create_instant_invite=False)
             await channel.edit(name='ahod-pause-freezed')
-            await channel.send(
-                "**All Hands on Deck - Pauses are FREEZED for the next 15 mins. Please do NOT pause the app.**")
+            await channel.send("**All Hands on Deck - Pauses are FREEZED. Please do NOT pause the app.**")
             await message.reply("**All Hands on Deck - Pauses FREEZED.**")
-            await channel.set_permissions(role, manage_messages=False, send_messages=False, view_channel=True,
-                                          add_reactions=True, read_message_history=True, use_external_emojis=False,
-                                          send_tts_messages=False, use_slash_commands=False, mention_everyone=False,
-                                          attach_files=False, embed_links=False, manage_webhooks=False,
-                                          manage_channels=False, manage_roles=False, create_instant_invite=False)
+            await channel.set_permissions(role, manage_messages=False, send_messages=False, view_channel=True, add_reactions=True, read_message_history=True, use_external_emojis=False, send_tts_messages=False, use_slash_commands=False, mention_everyone=False, attach_files=False, embed_links=False, manage_webhooks=False, manage_channels=False, manage_roles=False, create_instant_invite=False)
             return
 
         if message.content.startswith('!uf'):
@@ -149,20 +143,12 @@ async def on_message(message):
             channel = client.get_channel(838369470803738625)
             role_id = 838356141112557568
             role = get(guild.roles, id=role_id)
-            permissions = discord.Permissions()
-            permissions.update(send_messages=True, view_channel=True, add_reactions=True, read_message_history=True,
-                               use_external_emojis=False, send_tts_messages=False, use_slash_commands=False,
-                               mention_everyone=False, attach_files=False, embed_links=False, manage_webhooks=False,
-                               manage_channels=False, manage_roles=False, create_instant_invite=False)
-            await role.edit(permissions=permissions)
+
+            await channel.set_permissions(role, send_messages=True, view_channel=True, add_reactions=True, read_message_history=True, use_external_emojis=False, send_tts_messages=False, use_slash_commands=False, mention_everyone=False, attach_files=False, embed_links=False, manage_webhooks=False, manage_channels=False, manage_roles=False, create_instant_invite=False)
             await channel.edit(name='pause')
             await channel.send("**Pauses are available now.**")
             await message.reply("**Pauses are available now.**")
-            await channel.set_permissions(role, manage_messages=False, send_messages=True, view_channel=True,
-                                          add_reactions=True, read_message_history=True, use_external_emojis=False,
-                                          send_tts_messages=False, use_slash_commands=False, mention_everyone=False,
-                                          attach_files=False, embed_links=False, manage_webhooks=False,
-                                          manage_channels=False, manage_roles=False, create_instant_invite=False)
+            await channel.set_permissions(role, manage_messages=False, send_messages=True, view_channel=True, add_reactions=True, read_message_history=True, use_external_emojis=False, send_tts_messages=False, use_slash_commands=False, mention_everyone=False, attach_files=False, embed_links=False, manage_webhooks=False, manage_channels=False, manage_roles=False, create_instant_invite=False)
             return
 
         if message.content.startswith("!conc"):
@@ -176,13 +162,14 @@ async def on_message(message):
             await message.reply("**LOG file cleared.**")
 
         if message.content.startswith("!reset"):
+            with open(LOG_FILE, "rb") as file:
+                await message.reply("**Log File**", file=discord.File(file, "logs.csv"))
+            USER_SLOT_COUNT.clear()
             clear_log_file()
-            Pauselist = PauselistDupl[::]
+            Pauselist=PauselistDupl[::]
             MAX_PAUSE_SHIFT_COUNT = 3
             MAX_PAUSE_USER = 2
             await  message.reply("**BOT Resetting...**")
-            with open(LOG_FILE, "rb") as file:
-                await message.reply("**Log File**", file=discord.File(file, "logs.csv"))
             await  message.reply("**LOG file cleared**")
             await  message.reply("**MAX Pause/User = 2 || Concurrency = 3**")
         if message.content.startswith("!maxpause"):
@@ -276,4 +263,4 @@ async def on_message(message):
             await message.reply(f'```{message.author.display_name}' + " =>> " + finalslot + "```")
 
 # Run BOT
-client.run('Code   ')
+client.run('xxxx')
