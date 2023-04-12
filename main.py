@@ -263,4 +263,4 @@ async def on_message(message):
             await message.reply(f'```{message.author.display_name}' + " =>> " + finalslot + "```")
 
 # Run BOT
-client.run('xxxx')
+client.run('xxxxx')
